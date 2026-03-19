@@ -1,0 +1,35 @@
+{
+  "bangalore": [
+    {
+      "aqi": 200,
+      "temperature": 20.57,
+      "timestamp": "2026-03-20 04:19:01"
+    },
+    {
+      "aqi": 200,
+      "temperature": 20.57,
+      "timestamp": "2026-03-20 04:22:41"
+    },
+    {
+      "aqi": 200,
+      "temperature": 19.9,
+      "timestamp": "2026-03-20 05:01:33"
+    },
+    {
+      "aqi": 152,
+      "temperature": 19.9,
+      "timestamp": "2026-03-20 05:08:04"
+    },
+    {
+      "aqi": 168,
+      "temperature": 19.9,
+      "timestamp": "2026-03-20 05:13:16"
+    }
+  ],
+  "DELHI": [
+    {
+      "aqi": 80,
+      "temperature": 17.05
+    }
+  ]
+}
