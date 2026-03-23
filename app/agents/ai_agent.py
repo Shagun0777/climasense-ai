@@ -1,4 +1,5 @@
 import requests
+import json
 
 class AIAgent:
     def __init__(self):
@@ -9,10 +10,12 @@ class AIAgent:
             response = requests.post(
                 self.url,
                 json={
-                    "model": "tinyllama",
+                    "model": "phi3:mini",
                     "prompt": prompt,
                     "stream": False
-                }
+                },
+                timeout=10
+
             )
 
             data = response.json()
@@ -21,82 +24,92 @@ class AIAgent:
         except Exception as e:
             print("❌ Ollama Error:", e)
             return None
+     
+    def safe_parse(self, text):
+        try:
+            if "{" not in text or "}" not in text:
+                return None
 
-    # 🔥 HEALTH IMPACT
-    def generate_health_impact(self, data, risk):
+            start = text.find("{")
+            end = text.rfind("}") + 1
+
+            json_str = text[start:end]
+
+            data = json.loads(json_str)
+
+            if "health" not in data or "recommendations" not in data:
+                return None
+
+            if not isinstance(data["recommendations"], list):
+                return None
+
+            if len(data["recommendations"]) != 3:
+                return None
+
+            return data
+
+        except Exception as e:
+            print("❌ Parse Error:", e)
+            return None
+
+
+    def validate_output(self, data):
+        if len(data["health"].split()) > 12:
+            return False
+
+        for rec in data["recommendations"]:
+            if len(rec.split()) > 5:
+                return False
+
+        return True   
+
+    def generate_ai_response(self, data, risk):
         prompt = f"""
-        You must follow instructions strictly.
+        You must return ONLY JSON.
 
-        AQI: {data['aqi']}
-        Risk: {risk['airRisk']}
+        If you fail, return EMPTY {{}}.
 
-        Rules:
-        - Output ONLY 1 short sentence
-        - Max 15 words
-        - No introduction
+        STRICT RULES:
+        - No text before JSON
+        - No text after JSON
         - No explanation
-        - No extra text
-        - No formatting
 
-        Example:
-        AQI 150 can cause breathing issues.
+        Format:
+        {{
+        "health": "max 12 words",
+        "recommendations": [
+            "max 5 words",
+            "max 5 words",
+            "max 5 words"
+        ]
+        }}
 
-        Now generate output:
-        """
-
-        result = self.call_llm(prompt)
-
-        if result:
-            cleaned = result.split("\n")[0][:120]  # 🔥 hard limit
-            print("✅ LLM HEALTH:", cleaned)
-            return cleaned
-
-        return self.fallback_health(data, risk)
-
-    # 🔥 RECOMMENDATIONS
-    def generate_recommendations(self, data, risk):
-        prompt = f"""
-        Follow instructions STRICTLY.
-
+        Data:
         AQI: {data['aqi']}
         Temp: {data['temperature']}
         Risk: {risk['overallRisk']}
-
-        Rules:
-        - EXACTLY 3 bullet points
-        - Each under 6 words
-        - No explanation
-        - No extra text
-
-        Format:
-        1. Wear mask
-        2. Avoid outdoor activity
-        3. Stay hydrated
-
-        Now generate:
         """
 
-        result = self.call_llm(prompt)
+        for _ in range(3):  # retry loop
+            result = self.call_llm(prompt)
 
-        if result:
-            lines = result.split("\n")
+            if not result:
+                continue
 
-            # 🔥 strict filtering
-            valid = []
-            for line in lines:
-                if line.strip().startswith(("1.", "2.", "3.")):
-                    valid.append(line.strip())
+            parsed = self.safe_parse(result)
 
-            if len(valid) >= 3:
-                cleaned = "\n".join(valid[:3])
-                print("✅ LLM RECOMMEND:", cleaned)
-                return cleaned
+            if parsed and self.validate_output(parsed):
+                print("✅ LLM FINAL:", parsed)
+                return parsed
 
-        return self.fallback_recommendations(data, risk)
-
-    # 🔥 FALLBACKS
-    def fallback_health(self, data, risk):
-        return f"AQI {data['aqi']} may impact respiratory health."
-
-    def fallback_recommendations(self, data, risk):
-        return "1. Avoid outdoor exposure\n2. Wear mask\n3. Stay hydrated"
+        return self.fallback_combined(data, risk)
+    
+    def fallback_combined(self, data, risk):
+        return {
+            "health": f"AQI {data['aqi']} may affect breathing.",
+            "recommendations": [
+                "Avoid outdoor exposure",
+                "Wear mask",
+                "Stay hydrated"
+            ]
+        }

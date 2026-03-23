@@ -22,15 +22,22 @@ class RiskAgent:
             heat_risk = "High"
 
         # Overall Risk (simple logic)
-        if air_risk in ["High", "Unhealthy for Sensitive"]:
+        if air_risk in ["High", "Unhealthy for Sensitive Groups"]:
             overall = "High"
         elif heat_risk == "Moderate":
             overall = "Medium"
         else:
             overall = "Low"
 
+        # 🔥 scoring
+        aqi_score = min(aqi / 3, 50)   # AQI weight
+        temp_score = min(temp * 1.5, 50)
+
+        risk_score = int(aqi_score + temp_score)
+
         return {
             "airRisk": air_risk,
             "heatRisk": heat_risk,
-            "overallRisk": overall
+            "overallRisk": overall,
+            "riskScore": risk_score
         }

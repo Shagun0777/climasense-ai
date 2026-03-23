@@ -39,7 +39,6 @@ class DataAgent:
         return data["list"][0]["main"]["aqi"]   
     
     def normalize_aqi(self, aqi):
-        import random
 
         mapping = {
             1: random.randint(20, 50),
@@ -52,6 +51,19 @@ class DataAgent:
         return mapping.get(aqi, 100)
     
     def fetch(self, city: str):
+
+        # # 🔥 HANDLE TEST CITIES FIRST (NO API CALL)
+        # if city == "test":
+        #     # simulate changing AQI each call
+        #     import random
+        #     return {
+        #         "city": city,
+        #         "temperature": random.choice([25, 30, 35]),
+        #         "humidity": 40,
+        #         "aqi": random.choice([100, 140, 170])
+        #     }
+
+        # ✅ NORMAL FLOW
         weather = self.get_weather(city)
 
         raw_aqi = self.get_aqi(weather["lat"], weather["lon"])

@@ -3,14 +3,26 @@ from app.agents.data_agent import DataAgent
 from app.agents.risk_agent import RiskAgent
 from app.agents.ai_agent import AIAgent
 from app.agents.memory_agent import MemoryAgent
+from app.agents.alert_agent import AlertAgent
+from app.agents.health_agent import HealthAgent
+from fastapi.middleware.cors import CORSMiddleware
 
 ai_agent = AIAgent()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 data_agent = DataAgent()
 risk_agent = RiskAgent()
 memory_agent = MemoryAgent()
+alert_agent = AlertAgent()
+health_agent = HealthAgent()
 
 @app.get("/")
 def root():
@@ -25,15 +37,18 @@ def get_climate(city: str):
     # 🧠 memory update
     history = memory_agent.update(city, data)
     trend = memory_agent.analyze_trend(city)
+    alert = alert_agent.analyze(city, data, history)
+    health = health_agent.analyze(data, risk)
 
-    health = ai_agent.generate_health_impact(data, risk)
-    recommendations = ai_agent.generate_recommendations(data, risk)
+    ai_output = ai_agent.generate_ai_response(data, risk)
 
     return {
         "data": data,
         "risk": risk,
-        "trend": trend,          # 🔥 NEW
-        "history": history,      # 🔥 NEW
-        "healthImpact": health,
-        "recommendations": recommendations
+        "trend": trend,
+        "history": history,
+        "alert": alert,
+        "healthDetails": health,
+        "healthImpact": ai_output.get("health", "No data"),
+        "recommendations": ai_output.get("recommendations", [])
     }

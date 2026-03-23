@@ -54,3 +54,24 @@ class MemoryAgent:
             return "Air quality is improving 📈"
         else:
             return "Air quality is stable"
+        
+    def get_average_aqi(self, city):
+        memory = self.load_memory()
+
+        if city not in memory or not memory[city]:
+            return None
+
+        values = [entry["aqi"] for entry in memory[city]]
+        return sum(values) / len(values)
+
+
+    def get_aqi_delta(self, city):
+        memory = self.load_memory()
+
+        if city not in memory or len(memory[city]) < 2:
+            return None
+
+        latest = memory[city][-1]["aqi"]
+        prev = memory[city][-2]["aqi"]
+
+        return latest - prev       
