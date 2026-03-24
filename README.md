@@ -1,6 +1,6 @@
 # 🌍 Climate Intelligence (ClimaSense AI)
 
-An AI-powered environmental intelligence system that analyzes real-time air quality and provides actionable, context-aware insights using a multi-agent architecture.
+An AI-powered system that turns real-time air quality data into actionable decisions using multi-agent intelligence.
 
 ---
 
@@ -36,9 +36,9 @@ It combines:
 ---
 
 ### 📋 Agentic Recommendations
-- AQI-aware suggestions
-- Context-driven (not static rules)
-- Pollutant-sensitive adjustments
+- Dynamically generated based on AQI and risk level  
+- Adapts to dominant pollutant (e.g., ozone, PM2.5)  
+- Produces actionable, real-world guidance (not static rules)
 
 ---
 
@@ -68,6 +68,11 @@ It combines:
 
 ---
 
+### 🔹 Pollution Level Visualization (Tooltip)
+![Pollution Tooltip](./screenshots/pollution-tooltip.jpeg)
+
+---
+
 ### 🔹 AQI Variation Across Cities
 ![City Variation](./screenshots/city-variation.jpeg)
 
@@ -78,11 +83,6 @@ It combines:
 
 ---
 
-### 🔹 Pollution Level Visualization (Tooltip)
-![Pollution Tooltip](./screenshots/pollution-tooltip.jpeg)
-
----
-
 ### 🔹 Good AQI Scenario (Safe Conditions)
 ![Good AQI](./screenshots/good-aqi.jpeg)
 
@@ -90,14 +90,16 @@ It combines:
 
 ## 🏗️ Architecture
 
+- Designed with modular agent architecture for scalability
+
 ```
 
-Frontend (React + Vite)
-↓
-Backend (FastAPI)
-↓
-AI Agent Layer
-↓
+Frontend (React + Vite)  
+↓  
+Backend (FastAPI APIs)  
+↓  
+Multi-Agent Intelligence Layer  
+↓  
 LLM (Ollama - Local)
 
 ```
@@ -179,11 +181,11 @@ This project uses Ollama (local LLM).
 
 This project demonstrates:
 
-- ✅ Full-stack engineering
-- ✅ AI agent architecture
-- ✅ Real-world problem solving
-- ✅ Clean UI/UX design
-- ✅ LLM integration with structured outputs
+- ✅ Building real-world AI systems (not just models)  
+- ✅ Designing modular multi-agent architectures  
+- ✅ Integrating LLMs with structured outputs  
+- ✅ Translating raw data into actionable decisions  
+- ✅ Full-stack product thinking with clean UI/UX  
 
 ## 👨‍💻 Author
 
@@ -192,6 +194,8 @@ Shagun Tripathi
 ## 📌 Repository
 
 👉 https://github.com/Shagun0777/climasense-ai
+
+> This project focuses on making AI useful, not just impressive.
 
 
 
