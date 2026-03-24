@@ -67,27 +67,31 @@ class AIAgent:
         prompt = f"""
         You must return ONLY JSON.
 
-        If you fail, return EMPTY {{}}.
-
         STRICT RULES:
-        - No text before JSON
-        - No text after JSON
-        - No explanation
+        - No text before or after JSON
+        - Recommendations must be SHORT (max 5 words)
+        - Recommendations must match AQI level
+
+        AQI behavior:
+        - AQI <= 50 → encourage outdoor activity
+        - AQI 51–100 → light caution
+        - AQI 101–150 → reduce exposure
+        - AQI > 150 → avoid outdoor activity
 
         Format:
         {{
         "health": "max 12 words",
         "recommendations": [
-            "max 5 words",
-            "max 5 words",
-            "max 5 words"
+            "short action",
+            "short action",
+            "short action"
         ]
         }}
 
         Data:
         AQI: {data['aqi']}
-        Temp: {data['temperature']}
         Risk: {risk['overallRisk']}
+        Temperature: {data['temperature']}
         """
 
         for _ in range(3):  # retry loop
@@ -99,19 +103,19 @@ class AIAgent:
             parsed = self.safe_parse(result)
 
             if parsed and self.validate_output(parsed):
-                print("✅ LLM FINAL:", parsed)
+                parsed["recommendations"] = self.refine_recommendations(
+                    parsed["recommendations"],
+                    data["aqi"],
+                    data.get("dominantPollutant")
+                )
                 return parsed
 
         return self.fallback_combined(data, risk)
     
     def fallback_combined(self, data, risk):
         return {
-            "health": f"AQI {data['aqi']} may affect breathing.",
-            "recommendations": [
-                "Avoid outdoor exposure",
-                "Wear mask",
-                "Stay hydrated"
-            ]
+            "health": f"AQI {data['aqi']} requires caution.",
+            "recommendations": self.refine_recommendations([], data["aqi"])
         }
 
     def generate_insight(self, data, risk, trend, alert):
@@ -184,3 +188,40 @@ class AIAgent:
             return "Unable to answer right now"
 
         return result.strip()
+    
+    def refine_recommendations(self, recs, aqi, pollutant=None):
+        base = []
+
+        if aqi <= 50:
+            base = [
+                "Enjoy outdoor activities",
+                "No mask needed",
+                "Air quality is safe"
+            ]
+        elif aqi <= 100:
+            base = [
+                "Air is generally safe",
+                "Sensitives limit exposure",
+                "Stay hydrated"
+            ]
+        elif aqi <= 150:
+            base = [
+                "Limit outdoor activity",
+                "Avoid heavy exercise",
+                "Wear mask outdoors"
+            ]
+        else:
+            base = [
+                "Avoid outdoor activity",
+                "Stay indoors mostly",
+                "Use air purifier"
+            ]
+
+        # 🔥 pollutant awareness (small but powerful)
+        if pollutant == "pm2_5":
+            base[2] = "Use N95 mask"
+        elif pollutant == "o3":
+            base[1] = "Avoid midday exposure"
+
+        return list(set(recs[:1] + base[:2]))
+    

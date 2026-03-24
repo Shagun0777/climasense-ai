@@ -55,11 +55,6 @@
   ],
   "kanpur": [
     {
-      "aqi": 105,
-      "temperature": 29.87,
-      "timestamp": "2026-03-23 15:53:20"
-    },
-    {
       "aqi": 118,
       "temperature": 29.87,
       "timestamp": "2026-03-23 16:02:14"
@@ -78,6 +73,11 @@
       "aqi": 69,
       "temperature": 34.26,
       "timestamp": "2026-03-24 16:08:13"
+    },
+    {
+      "aqi": 69,
+      "temperature": 34.26,
+      "timestamp": "2026-03-24 16:23:05"
     }
   ],
   "test1": [
@@ -252,6 +252,71 @@
       "aqi": 66,
       "temperature": 34.95,
       "timestamp": "2026-03-24 15:56:29"
+    }
+  ],
+  "Barcelona": [
+    {
+      "aqi": 17,
+      "temperature": 17.27,
+      "timestamp": "2026-03-24 16:20:19"
+    },
+    {
+      "aqi": 17,
+      "temperature": 17.27,
+      "timestamp": "2026-03-24 16:20:56"
+    },
+    {
+      "aqi": 17,
+      "temperature": 17.27,
+      "timestamp": "2026-03-24 16:21:21"
+    }
+  ],
+  "Bengaluru": [
+    {
+      "aqi": 94,
+      "temperature": 31.36,
+      "timestamp": "2026-03-24 16:22:26"
+    },
+    {
+      "aqi": 94,
+      "temperature": 31.36,
+      "timestamp": "2026-03-24 16:22:49"
+    }
+  ],
+  "bengaluru": [
+    {
+      "aqi": 94,
+      "temperature": 31.36,
+      "timestamp": "2026-03-24 16:23:40"
+    }
+  ],
+  "Paris": [
+    {
+      "aqi": 70,
+      "temperature": 15.5,
+      "timestamp": "2026-03-24 16:24:02"
+    }
+  ],
+  "Spain": [
+    {
+      "aqi": 13,
+      "temperature": 16.26,
+      "timestamp": "2026-03-24 16:27:42"
+    },
+    {
+      "aqi": 13,
+      "temperature": 17.37,
+      "timestamp": "2026-03-24 17:32:26"
+    },
+    {
+      "aqi": 13,
+      "temperature": 17.93,
+      "timestamp": "2026-03-24 17:59:50"
+    },
+    {
+      "aqi": 13,
+      "temperature": 17.93,
+      "timestamp": "2026-03-24 18:00:46"
     }
   ]
 }

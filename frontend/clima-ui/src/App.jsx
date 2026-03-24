@@ -15,6 +15,8 @@ function App() {
 
     setLoading(true);
     setData(null);
+    setAnswer("");    
+    setQuestion("");
 
     try {
       const res = await fetch(`http://127.0.0.1:8000/climate/${city}`);
@@ -214,7 +216,7 @@ function App() {
             <ul className="space-y-2">
               {data.recommendations.map((rec, i) => (
                 <li key={i} className="bg-gray-100 px-4 py-3 rounded-xl shadow-sm hover:bg-gray-200 transition">
-                  ✔ {rec}
+                 <li key={i} className="bg-gray-100 px-4 py-3 rounded-xl shadow-sm"><span className="font-medium">✔ {rec}</span></li>
                 </li>
               ))}
             </ul>
