@@ -59,32 +59,32 @@ It combines:
 ## 🖼️ Screenshots
 
 ### 🔹 Dashboard Overview (Moderate AQI)
-![Dashboard Moderate](./screenshots/dashboard-moderate.png)
+![Dashboard Moderate](./screenshots/dashboard-moderate.jpeg)
 
 ---
 
 ### 🔹 Recommendations & Pollution Breakdown
-![Recommendations](./screenshots/recommendations-breakdown.png)
+![Recommendations](./screenshots/recommendations-breakdown.jpeg)
 
 ---
 
 ### 🔹 AQI Variation Across Cities
-![City Variation](./screenshots/city-variation.png)
+![City Variation](./screenshots/city-variation.jpeg)
 
 ---
 
 ### 🔹 AI Chat Assistant
-![AI Chat](./screenshots/ai-chat.png)
+![AI Chat](./screenshots/ai-chat.jpeg)
 
 ---
 
 ### 🔹 Pollution Level Visualization (Tooltip)
-![Pollution Tooltip](./screenshots/pollution-tooltip.png)
+![Pollution Tooltip](./screenshots/pollution-tooltip.jpeg)
 
 ---
 
 ### 🔹 Good AQI Scenario (Safe Conditions)
-![Good AQI](./screenshots/good-aqi.png)
+![Good AQI](./screenshots/good-aqi.jpeg)
 
 ---
 
