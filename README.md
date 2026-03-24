@@ -1,6 +1,11 @@
 # 🌍 Climate Intelligence (ClimaSense AI)
 
-> Turning real-time environmental data into **actionable intelligence using AI agents**
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
+![LLM](https://img.shields.io/badge/AI-Ollama-purple)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
+> Turning real-time environmental data into **actionable decisions using AI agents**
 
 ---
 
@@ -11,6 +16,7 @@
 - 🟢 Low AQI → Safe activity suggestions  
 
 👉 Not just a dashboard — a **decision-making assistant**
+👉 Uses real-time data + AI reasoning + multi-agent architecture
 
 ---
 
@@ -23,6 +29,24 @@ Climate Intelligence is an **AI-powered system** that:
 - Explains *why* pollution is happening
 - Predicts future risk trends
 - Answers natural language queries
+
+---
+
+## ⚙️ How It Works
+
+1. User enters a city  
+2. Data Agent fetches AQI + pollutant data (IQAir / OpenWeather)  
+3. Risk Agent evaluates severity  
+4. Memory Agent tracks historical trends  
+5. Alert Agent detects anomalies  
+6. AI Agent generates:
+   - Summary
+   - Cause
+   - Future outlook
+   - Confidence score  
+7. UI renders insights + recommendations  
+
+👉 Output = actionable environmental decision support
 
 ---
 
@@ -72,6 +96,16 @@ Ask questions like:
 - Visual breakdown of pollutants  
 - Severity-based color indicators  
 - Dominant pollutant based on **health impact (not raw value)**  
+
+---
+
+## 🚀 What Makes This Different?
+
+- Not just a dashboard → **decision intelligence system**
+- Combines **real-time APIs + AI reasoning**
+- Explains *why pollution happens*, not just what
+- Uses **confidence scoring** to avoid misleading outputs
+- Built using **multi-agent architecture (scalable design)**
 
 ---
 
@@ -163,7 +197,7 @@ The system assigns confidence levels based on:
 
 ---
 
-### 🔹 9. Alert Component (Focused View)
+### 🔹 8. Alert Component (Focused View)
 ![Alert Component](./screenshots/Alert%20Panel.jpeg)
 
 👉 Shows:
@@ -235,10 +269,26 @@ cd climasense-ai
 ```bash
 cd backend
 pip install -r requirements.txt
+```
+
+### 3. Add Environment Variables
+> Create a .env file inside backend/:
+```bash
+WEATHER_API_KEY=your_openweather_key
+IQAIR_API_KEY=your_iqair_key
+```
+
+### 4. Start Ollama (LLM)
+```bash
+ollama run phi3:mini
+```
+
+### 5. Start Backend
+```bash
 uvicorn main:app --reload
 ```
 
-### 3. Frontend Setup
+### 6. Start Frontend
 ```bash
 cd frontend
 npm install
