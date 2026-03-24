@@ -6,6 +6,7 @@ from app.agents.memory_agent import MemoryAgent
 from app.agents.alert_agent import AlertAgent
 from app.agents.health_agent import HealthAgent
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Body
 
 ai_agent = AIAgent()
 
@@ -41,6 +42,7 @@ def get_climate(city: str):
     health = health_agent.analyze(data, risk)
 
     ai_output = ai_agent.generate_ai_response(data, risk)
+    ai_insight = ai_agent.generate_insight(data, risk, trend, alert)
 
     return {
         "data": data,
@@ -50,5 +52,24 @@ def get_climate(city: str):
         "alert": alert,
         "healthDetails": health,
         "healthImpact": ai_output.get("health", "No data"),
-        "recommendations": ai_output.get("recommendations", [])
+        "recommendations": ai_output.get("recommendations", []),
+        "aiInsight": ai_insight
+    }
+
+@app.post("/ask")
+def ask_ai(payload: dict = Body(...)):
+    question = payload.get("question")
+    city = payload.get("city")
+
+    data = data_agent.fetch(city)
+    risk = risk_agent.analyze(data)
+    history = memory_agent.update(city, data)
+    trend = memory_agent.analyze_trend(city)
+    alert = alert_agent.analyze(city, data, history)
+
+    answer = ai_agent.answer_question(question, data, risk, trend, alert)
+
+    return {
+        "question": question,
+        "answer": answer
     }

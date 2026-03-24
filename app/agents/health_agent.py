@@ -11,7 +11,8 @@ class HealthAgent:
                     "Heart patients",
                     "Children",
                     "Elderly"
-                ]
+                ],
+                "explanation": f"AQI {aqi} is in unhealthy range"
             }
 
         # 🟠 Moderate Risk
@@ -29,5 +30,5 @@ class HealthAgent:
         else:
             return {
                 "riskLevel": "Low",
-                "affectedGroups": []
+                "affectedGroups": ["General population"]
             }

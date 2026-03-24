@@ -74,4 +74,33 @@ class MemoryAgent:
         latest = memory[city][-1]["aqi"]
         prev = memory[city][-2]["aqi"]
 
-        return latest - prev       
+        return latest - prev   
+
+    def detect_pattern(self, city):
+        memory = self.load_memory()
+
+        if city not in memory or len(memory[city]) < 3:
+            return None
+
+        values = [x["aqi"] for x in memory[city]]
+
+        if values[-1] > values[-2] > values[-3]:
+            return "Consistent worsening trend"
+
+        if values[-1] < values[-2] < values[-3]:
+            return "Consistent improvement trend"
+
+        return "Fluctuating pattern"    
+    
+    def predict_next_aqi(self, city):
+        memory = self.load_memory()
+
+        if city not in memory or len(memory[city]) < 3:
+            return None
+
+        values = [x["aqi"] for x in memory[city]]
+
+        delta1 = values[-1] - values[-2]
+        delta2 = values[-2] - values[-3]
+
+        return int(values[-1] + (delta1 + delta2) / 2)

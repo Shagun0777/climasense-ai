@@ -14,7 +14,7 @@ class AIAgent:
                     "prompt": prompt,
                     "stream": False
                 },
-                timeout=10
+                timeout=20
 
             )
 
@@ -113,3 +113,74 @@ class AIAgent:
                 "Stay hydrated"
             ]
         }
+
+    def generate_insight(self, data, risk, trend, alert):
+        prompt = f"""
+        Return ONLY JSON.
+
+        {{
+        "summary": "combine AQI, trend, alert in 1 line",
+        "cause": "why this is happening",
+        "riskOutlook": "future expectation",
+        "confidence": "Low/Medium/High"
+        }}
+
+        Data:
+        AQI: {data['aqi']}
+        Risk: {risk['overallRisk']}
+        Trend: {trend}
+        Prediction Hint: If trend worsening → future risk high
+        Dominant Pollutant: {data.get('dominantPollutant')}
+        Source: {data.get('pollutionSource')}
+        Alert: {alert.get('type')}
+        """
+
+        result = self.call_llm(prompt)
+
+        if not result:
+            return self.fallback_insight(data, trend)
+
+        try:
+            start = result.find("{")
+            end = result.rfind("}") + 1
+            parsed = json.loads(result[start:end])
+            return parsed
+        except:
+            return self.fallback_insight(data, trend)
+        
+    def fallback_insight(self, data, trend):
+        return {
+            "summary": f"AQI {data['aqi']} with {trend.lower()}",
+            "cause": f"Driven by {data.get('dominantPollutant')}",
+            "riskOutlook": "Monitor closely",
+            "confidence": "Low"
+        }
+    
+    def answer_question(self, question, data, risk, trend, alert):
+        prompt = f"""
+        Answer the user question using the data.
+
+        Keep answer:
+        - Short
+        - Clear
+        - Helpful
+
+        Question: {question}
+
+        Context:
+        AQI: {data['aqi']}
+        Risk: {risk['overallRisk']}
+        Trend: {trend}
+        Alert: {alert.get('type')}
+        Dominant Pollutant: {data.get('dominantPollutant')}
+        Source: {data.get('pollutionSource')}
+
+        Answer:
+        """
+
+        result = self.call_llm(prompt)
+
+        if not result:
+            return "Unable to answer right now"
+
+        return result.strip()

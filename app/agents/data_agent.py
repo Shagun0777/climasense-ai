@@ -32,24 +32,81 @@ class DataAgent:
         url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={self.weather_api_key}"
         response = requests.get(url)
         data = response.json()
+        print("AQI RAW RESPONSE:", data)
 
         if "list" not in data:
             raise Exception(f"AQI API failed: {data}")
 
-        return data["list"][0]["main"]["aqi"]   
-    
-    def normalize_aqi(self, aqi):
+        components = data["list"][0]["components"]
+        return components   
 
-        mapping = {
-            1: random.randint(20, 50),
-            2: random.randint(50, 100),
-            3: random.randint(100, 150),
-            4: random.randint(150, 200),
-            5: random.randint(200, 300)
+    def convert_pm25_to_aqi(self, pm25):
+        if pm25 <= 12:
+            return int((pm25 / 12) * 50)
+        elif pm25 <= 35.4:
+            return int(((pm25 - 12) / (35.4 - 12)) * 50 + 50)
+        elif pm25 <= 55.4:
+            return int(((pm25 - 35.4) / (55.4 - 35.4)) * 50 + 100)
+        elif pm25 <= 150.4:
+            return int(((pm25 - 55.4) / (150.4 - 55.4)) * 100 + 150)
+        else:
+            return int(min(300, pm25 * 2))
+        
+    def get_dominant_pollutant(self, components):
+        filtered = {
+            "pm2_5": components["pm2_5"],
+            "pm10": components["pm10"],
+            "no2": components["no2"],
+            "o3": components["o3"]
         }
 
-        return mapping.get(aqi, 100)
-    
+        return max(filtered, key=filtered.get)
+       
+    def estimate_source(self, components):
+        if components["no2"] > 20:
+            return "Traffic pollution"
+
+        if components["so2"] > 10:
+            return "Industrial pollution"
+
+        if components["pm2_5"] > 50:
+            return "Dust / Construction"
+
+        return "Mixed sources"
+
+    def classify_pollutant_level(self, name, value):
+        if name == "pm2_5":
+            if value <= 12: return "Good"
+            elif value <= 35: return "Moderate"
+            elif value <= 55: return "Unhealthy"
+            else: return "Severe"
+
+        if name == "pm10":
+            if value <= 50: return "Good"
+            elif value <= 100: return "Moderate"
+            else: return "Unhealthy"
+
+        if name == "no2":
+            if value <= 40: return "Good"
+            elif value <= 80: return "Moderate"
+            else: return "Unhealthy"
+
+        if name == "o3":
+            if value <= 50: return "Good"
+            elif value <= 100: return "Moderate"
+            else: return "Unhealthy"
+
+        if name == "co":
+            return "Moderate"
+
+        if name == "so2":
+            return "Good"
+
+        if name == "nh3":
+            return "Moderate"
+
+        return "Unknown"
+
     def fetch(self, city: str):
 
         # # 🔥 HANDLE TEST CITIES FIRST (NO API CALL)
@@ -66,12 +123,26 @@ class DataAgent:
         # ✅ NORMAL FLOW
         weather = self.get_weather(city)
 
-        raw_aqi = self.get_aqi(weather["lat"], weather["lon"])
-        aqi = self.normalize_aqi(raw_aqi)
+        components = self.get_aqi(weather["lat"], weather["lon"])
+
+        levels = {}
+
+        for key, value in components.items():
+            levels[key] = self.classify_pollutant_level(key, value)
+
+        pm25 = components["pm2_5"]
+        aqi = self.convert_pm25_to_aqi(pm25)
+
+        dominant = self.get_dominant_pollutant(components)
+        source = self.estimate_source(components)
 
         return {
             "city": city,
             "temperature": weather["temperature"],
             "humidity": weather["humidity"],
-            "aqi": aqi
+            "aqi": aqi,
+            "components": components,
+            "levels": levels,
+            "dominantPollutant": dominant,
+            "pollutionSource": source
         }

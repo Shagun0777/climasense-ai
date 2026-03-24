@@ -39,5 +39,6 @@ class RiskAgent:
             "airRisk": air_risk,
             "heatRisk": heat_risk,
             "overallRisk": overall,
-            "riskScore": risk_score
+            "riskScore": risk_score,
+            "reason": f"AQI contribution + temperature impact"
         }

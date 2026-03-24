@@ -11,7 +11,8 @@ class AlertAgent:
             return {
                 "alert": True,
                 "type": "HIGH_RISK",
-                "message": "Air quality is unhealthy"
+                "message": "Air quality is unhealthy",
+                "reason": f"AQI reached {latest['aqi']}"
             }
 
         # 🔥 AQI SPIKE
@@ -19,7 +20,8 @@ class AlertAgent:
             return {
                 "alert": True,
                 "type": "AQI_SPIKE",
-                "message": "Sudden air quality worsening detected"
+                "message": "Sudden air quality worsening detected",
+                "reason": f"Jumped from {prev['aqi']} → {latest['aqi']}"
             }
 
         # 🔥 TEMP SPIKE
@@ -27,7 +29,8 @@ class AlertAgent:
             return {
                 "alert": True,
                 "type": "TEMP_SPIKE",
-                "message": "Temperature increased sharply"
+                "message": "Temperature increased sharply",
+                "reason": f"Temperature rose from {prev['temperature']} → {latest['temperature']}"
             }
 
         return {
