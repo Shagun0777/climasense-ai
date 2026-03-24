@@ -46,6 +46,10 @@ def get_climate(city: str):
 
     return {
         "data": data,
+        "meta": {
+            "source": data.get("dataSource"),
+            "confidence": data.get("confidence")
+        },
         "risk": risk,
         "trend": trend,
         "history": history,

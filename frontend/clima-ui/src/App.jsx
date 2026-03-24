@@ -103,6 +103,13 @@ function App() {
     return "#94a3b8";
   };
 
+  const pollutantNameMap = {
+    pm2_5: "Fine Particles (PM2.5)",
+    pm10: "Coarse Dust (PM10)",
+    no2: "Traffic Pollution (NO₂)",
+    o3: "Ozone (O₃)"
+  };
+
   return (
     <div className={`min-h-screen bg-gradient-to-br ${data ? getBackground(data.data.aqi) : "from-indigo-100 via-blue-50 to-purple-100"} flex flex-col items-center p-6 transition-all duration-700`}>
 
@@ -153,6 +160,10 @@ function App() {
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-2xl shadow-lg border border-white/30 hover:shadow-[0_0_40px_rgba(0,0,0,0.2)] transition-all duration-500">
             <div className="text-center">
               <p className="text-gray-500">AQI</p>
+              <p className="text-sm text-gray-600 mt-1">
+                📍 {data.data.city}
+                {data.data.state && `, ${data.data.state}`}
+              </p>
 
             <div className={`text-8xl font-extrabold mt-4 px-8 py-4 rounded-3xl inline-block ${getAQIStyles(data.data.aqi)} shadow-2xl animate-pulse`}>                {data.data.aqi}
               </div>
@@ -181,12 +192,21 @@ function App() {
             </p>
 
             <p className="text-sm mt-2 text-gray-600">
-              Dominant: <b>{data.data.dominantPollutant}</b>
+              Dominant: <b>{pollutantNameMap[data.data.dominantPollutant] || data.data.dominantPollutant}</b>
             </p>
 
             <p className="text-sm text-gray-600">
               Source: <b>{data.data.pollutionSource}</b>
             </p>
+
+            <p className="text-xs text-gray-500 mt-2">
+              Data Source: <b>{data.meta?.source}</b>
+            </p>
+
+            <p className="text-xs text-gray-500">
+              Confidence: <b>{data.meta?.confidence}</b>
+            </p>
+
           </div>
 
           {/* ALERT CARD */}
@@ -215,9 +235,7 @@ function App() {
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-2xl shadow-lg border border-white/30 hover:scale-105 hover:shadow-2xl transition-all duration-500 animate-fadeIn">            <h2 className="text-lg font-semibold mb-2">📋 Recommendations</h2>
             <ul className="space-y-2">
               {data.recommendations.map((rec, i) => (
-                <li key={i} className="bg-gray-100 px-4 py-3 rounded-xl shadow-sm hover:bg-gray-200 transition">
                  <li key={i} className="bg-gray-100 px-4 py-3 rounded-xl shadow-sm"><span className="font-medium">✔ {rec}</span></li>
-                </li>
               ))}
             </ul>
           </div>

@@ -124,18 +124,28 @@ class AIAgent:
 
         {{
         "summary": "combine AQI, trend, alert in 1 line",
-        "cause": "why this is happening",
+        "cause": "city-aware explanation using pollutant + realistic urban causes",
         "riskOutlook": "future expectation",
         "confidence": "Low/Medium/High"
         }}
 
         Data:
+        City: {data.get('city')}
+        State: {data.get('state')}
+        Country: {data.get('country')}
+
         AQI: {data['aqi']}
         Risk: {risk['overallRisk']}
         Trend: {trend}
-        Prediction Hint: If trend worsening → future risk high
-        Dominant Pollutant: {data.get('dominantPollutant')}
-        Source: {data.get('pollutionSource')}
+
+        Dominant Pollutant (human readable): {data.get('dominantPollutant')}
+        Pollution Source Hint: {data.get('pollutionSource')}
+
+        Context Rules:
+        - Use city context if relevant
+        - Do NOT assume facts not supported by data
+        - If unsure, say "likely due to common urban factors"
+
         Alert: {alert.get('type')}
         """
 
@@ -176,7 +186,7 @@ class AIAgent:
         Risk: {risk['overallRisk']}
         Trend: {trend}
         Alert: {alert.get('type')}
-        Dominant Pollutant: {data.get('dominantPollutant')}
+        Dominant Pollutant (human readable): {data.get('dominantPollutant')}
         Source: {data.get('pollutionSource')}
 
         Answer:

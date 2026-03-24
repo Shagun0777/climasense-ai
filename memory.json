@@ -55,21 +55,6 @@
   ],
   "kanpur": [
     {
-      "aqi": 118,
-      "temperature": 29.87,
-      "timestamp": "2026-03-23 16:02:14"
-    },
-    {
-      "aqi": 109,
-      "temperature": 29.87,
-      "timestamp": "2026-03-23 16:03:13"
-    },
-    {
-      "aqi": 133,
-      "temperature": 29.49,
-      "timestamp": "2026-03-23 16:23:35"
-    },
-    {
       "aqi": 69,
       "temperature": 34.26,
       "timestamp": "2026-03-24 16:08:13"
@@ -78,6 +63,21 @@
       "aqi": 69,
       "temperature": 34.26,
       "timestamp": "2026-03-24 16:23:05"
+    },
+    {
+      "aqi": 77,
+      "temperature": 25.51,
+      "timestamp": "2026-03-24 21:43:35"
+    },
+    {
+      "aqi": 77,
+      "temperature": 25.51,
+      "timestamp": "2026-03-24 21:47:44"
+    },
+    {
+      "aqi": 77,
+      "temperature": 25.51,
+      "timestamp": "2026-03-24 21:49:31"
     }
   ],
   "test1": [
@@ -159,27 +159,27 @@
     {
       "aqi": 61,
       "temperature": 30.05,
-      "timestamp": "2026-03-24 15:42:54"
-    },
-    {
-      "aqi": 61,
-      "temperature": 30.05,
-      "timestamp": "2026-03-24 15:42:55"
-    },
-    {
-      "aqi": 61,
-      "temperature": 30.05,
-      "timestamp": "2026-03-24 15:56:01"
-    },
-    {
-      "aqi": 61,
-      "temperature": 30.05,
-      "timestamp": "2026-03-24 16:04:20"
-    },
-    {
-      "aqi": 61,
-      "temperature": 30.05,
       "timestamp": "2026-03-24 16:05:12"
+    },
+    {
+      "aqi": 90,
+      "temperature": 25.05,
+      "timestamp": "2026-03-24 21:08:20"
+    },
+    {
+      "aqi": 117,
+      "temperature": 20.05,
+      "timestamp": "2026-03-25 01:38:01"
+    },
+    {
+      "aqi": 181,
+      "temperature": 19.05,
+      "timestamp": "2026-03-25 02:47:23"
+    },
+    {
+      "aqi": 181,
+      "temperature": 19.05,
+      "timestamp": "2026-03-25 02:47:55"
     }
   ],
   "JAIPUR": [
@@ -191,29 +191,29 @@
   ],
   "Kanpur": [
     {
-      "aqi": 69,
-      "temperature": 34.7,
-      "timestamp": "2026-03-24 15:30:47"
+      "aqi": 113,
+      "temperature": 21.85,
+      "timestamp": "2026-03-25 02:25:23"
     },
     {
-      "aqi": 69,
-      "temperature": 34.7,
-      "timestamp": "2026-03-24 15:31:17"
+      "aqi": 113,
+      "temperature": 21.85,
+      "timestamp": "2026-03-25 02:44:53"
     },
     {
-      "aqi": 69,
-      "temperature": 34.7,
-      "timestamp": "2026-03-24 15:55:03"
+      "aqi": 113,
+      "temperature": 21.85,
+      "timestamp": "2026-03-25 02:46:13"
     },
     {
-      "aqi": 69,
-      "temperature": 34.26,
-      "timestamp": "2026-03-24 16:17:57"
+      "aqi": 113,
+      "temperature": 21.85,
+      "timestamp": "2026-03-25 02:46:45"
     },
     {
-      "aqi": 69,
-      "temperature": 34.26,
-      "timestamp": "2026-03-24 16:18:34"
+      "aqi": 113,
+      "temperature": 21.85,
+      "timestamp": "2026-03-25 02:46:48"
     }
   ],
   "london": [
@@ -269,6 +269,16 @@
       "aqi": 17,
       "temperature": 17.27,
       "timestamp": "2026-03-24 16:21:21"
+    },
+    {
+      "aqi": 56,
+      "temperature": 12.82,
+      "timestamp": "2026-03-25 02:49:45"
+    },
+    {
+      "aqi": 56,
+      "temperature": 12.82,
+      "timestamp": "2026-03-25 02:50:08"
     }
   ],
   "Bengaluru": [
@@ -288,6 +298,11 @@
       "aqi": 94,
       "temperature": 31.36,
       "timestamp": "2026-03-24 16:23:40"
+    },
+    {
+      "aqi": 96,
+      "temperature": 26.33,
+      "timestamp": "2026-03-24 21:42:34"
     }
   ],
   "Paris": [
@@ -298,11 +313,6 @@
     }
   ],
   "Spain": [
-    {
-      "aqi": 13,
-      "temperature": 16.26,
-      "timestamp": "2026-03-24 16:27:42"
-    },
     {
       "aqi": 13,
       "temperature": 17.37,
@@ -317,6 +327,62 @@
       "aqi": 13,
       "temperature": 17.93,
       "timestamp": "2026-03-24 18:00:46"
+    },
+    {
+      "aqi": 29,
+      "temperature": 12.46,
+      "timestamp": "2026-03-25 02:48:59"
+    },
+    {
+      "aqi": 29,
+      "temperature": 12.46,
+      "timestamp": "2026-03-25 02:49:21"
+    }
+  ],
+  "Bangalore": [
+    {
+      "aqi": 112,
+      "temperature": 23.08,
+      "timestamp": "2026-03-25 02:27:03"
+    },
+    {
+      "aqi": 112,
+      "temperature": 23.08,
+      "timestamp": "2026-03-25 02:33:16"
+    },
+    {
+      "aqi": 115,
+      "temperature": 22.83,
+      "timestamp": "2026-03-25 02:38:35"
+    },
+    {
+      "aqi": 115,
+      "temperature": 22.83,
+      "timestamp": "2026-03-25 02:39:10"
+    },
+    {
+      "aqi": 110,
+      "temperature": 22.66,
+      "timestamp": "2026-03-25 02:54:28"
+    }
+  ],
+  "Dhaka": [
+    {
+      "aqi": 140,
+      "temperature": 23.99,
+      "timestamp": "2026-03-25 02:48:47"
+    }
+  ],
+  "Dubai": [
+    {
+      "aqi": 39,
+      "temperature": 23.5,
+      "timestamp": "2026-03-25 03:03:58"
+    },
+    {
+      "aqi": 39,
+      "temperature": 23.5,
+      "timestamp": "2026-03-25 03:05:00"
     }
   ]
 }
